@@ -2,9 +2,10 @@ package com.sda.spring.java11.controller;
 
 import static java.util.stream.Collectors.toList;
 
+import com.sda.spring.java11.service.CounterComponent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,15 @@ public class MainController {
   private Integer count = 0;
   private List<String> list = new ArrayList<>();
 
+  @Autowired
+  private CounterComponent counterComponent;
+
+  @GetMapping("/count")
+  @ResponseStatus(HttpStatus.OK)
+  public int counter() {
+    return counterComponent.increment();
+  }
+
   @RequestMapping(value = "/hello", method = RequestMethod.GET)
   public ResponseEntity<String> hello() {
     return ResponseEntity.ok("hello!!!!");
@@ -33,7 +43,7 @@ public class MainController {
     return ResponseEntity.ok("hello2!!!!");
   }
 
-  @GetMapping("/count")
+  @PostMapping("/count")
   public ResponseEntity<Integer> count() {
     count++;
     if (count < 5) {

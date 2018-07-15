@@ -2,6 +2,8 @@ package com.sda.spring.java11.service;
 
 import static java.util.stream.Collectors.toList;
 
+import com.sda.spring.java11.exception.NotFoundException;
+import com.sda.spring.java11.exception.ValidationException;
 import com.sda.spring.java11.model.Book;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +25,22 @@ public class BookService {
   }
 
   public Book add(Book book) {
+    if (book.getId() == null) {
+      throw new ValidationException("Id cannot be null");
+    }
     books.add(book);
     return book;
   }
 
   public Book get(Long id) {
-      return books.stream()
+      Optional<Book> foundBook = books.stream()
           .filter(book -> book.getId().equals(id))
-          .findFirst()
-          .get();
+          .findFirst();
+      if (foundBook.isPresent()) {
+        return foundBook.get();
+      } else {
+        throw new NotFoundException("Book was not found");
+      }
   }
 
   public void delete(Long id) {
@@ -41,6 +50,8 @@ public class BookService {
         .get();
     if (bookToBeDeleted != null) {
       books.remove(bookToBeDeleted);
+    } else {
+      throw new NotFoundException("Book was not found");
     }
   }
 
