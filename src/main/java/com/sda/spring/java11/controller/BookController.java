@@ -1,12 +1,8 @@
 package com.sda.spring.java11.controller;
 
-import static java.util.stream.Collectors.toList;
-
 import com.sda.spring.java11.model.Book;
 import com.sda.spring.java11.service.BookService;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

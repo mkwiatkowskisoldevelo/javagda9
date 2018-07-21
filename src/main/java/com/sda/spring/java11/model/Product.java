@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -22,4 +24,17 @@ public class Product {
 
   @Column(nullable = false)
   private Double price;
+
+//  @ManyToOne
+//  @JoinColumn(name = "receipt_id")
+//  private Receipt receipt;
+
+  public void updateFrom(Product product) {
+    if (product.getName() != null) {
+      this.name = product.getName();
+    }
+    if (product.getPrice() != null) {
+      this.price = product.getPrice();
+    }
+  }
 }
