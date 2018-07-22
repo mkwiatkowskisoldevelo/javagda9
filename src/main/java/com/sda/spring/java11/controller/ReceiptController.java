@@ -1,6 +1,5 @@
 package com.sda.spring.java11.controller;
 
-import com.sda.spring.java11.model.Product;
 import com.sda.spring.java11.model.Receipt;
 import com.sda.spring.java11.model.Status;
 import com.sda.spring.java11.service.ReceiptService;
@@ -8,6 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
@@ -37,16 +42,31 @@ public class ReceiptController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<Receipt> search(
+  public Page<Receipt> search(
       @RequestParam(defaultValue = "") String client,
       @RequestParam(required = false)
       @DateTimeFormat(iso = ISO.DATE) LocalDate startDate,
       @RequestParam(required = false)
       @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
-      @RequestParam(required = false) Set<Status> status) {
+      @RequestParam(required = false) Set<Status> status,
+      //@PageableDefault(page = 1, size = 5)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "status", direction = Direction.DESC),
+          @SortDefault(sort = "client", direction = Direction.ASC),
+      }) Pageable pageable) {
 //    return receiptService.searchByClient(client);
-    return receiptService.search(client, startDate, endDate, status);
+    return receiptService.search(client, startDate, endDate, status, pageable);
   }
+
+//  @GetMapping("/search")
+//  @ResponseStatus(HttpStatus.OK)
+//  public List<Receipt> find(ReceiptSearchParams params) {
+//    return receiptService.search(
+//        params.getClient(),
+//        params.getStartDate(),
+//        params.getEndDate(),
+//        params.getStatus());
+//  }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -8,7 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "products")
@@ -19,9 +24,14 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotBlank
+  @Length(min = 1, max = 20)
   @Column(nullable = false, unique = true)
   private String name;
 
+  @Min(0)
+  @Max(10000)
+  @NotNull
   @Column(nullable = false)
   private Double price;
 

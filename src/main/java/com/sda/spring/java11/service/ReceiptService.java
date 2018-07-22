@@ -7,13 +7,14 @@ import com.sda.spring.java11.model.Receipt;
 import com.sda.spring.java11.model.Status;
 import com.sda.spring.java11.repository.ReceiptRepository;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,11 +35,12 @@ public class ReceiptService {
     return receiptRespository.findAll();
   }
 
-  public List<Receipt> search(
+  public Page<Receipt> search(
       String client,
       LocalDate startDate,
       LocalDate endDate,
-      Set<Status> statuses) {
+      Set<Status> statuses,
+      Pageable pageable) {
     if (startDate == null) {
       startDate = LocalDate.of(2000, 1, 1);
     }
@@ -58,7 +60,8 @@ public class ReceiptService {
         client,
         startDate.atStartOfDay(),
         endDate.atTime(LocalTime.MAX),
-        statuses);
+        statuses,
+        pageable);
   }
 
   public void delete(Long id) {

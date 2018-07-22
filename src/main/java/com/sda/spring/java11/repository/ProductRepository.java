@@ -2,6 +2,8 @@ package com.sda.spring.java11.repository;
 
 import com.sda.spring.java11.model.Product;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   List<Product>
   findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualOrderByPriceDesc(
       String name, Double minPrice, Double maxPrice);
+  Page<Product>
+  findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualOrderByPriceDesc(
+      String name, Double minPrice, Double maxPrice, Pageable pageable);
+
+  boolean existsByName(String name);
 }

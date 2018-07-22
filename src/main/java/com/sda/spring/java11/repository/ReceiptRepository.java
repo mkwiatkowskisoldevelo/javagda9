@@ -5,6 +5,8 @@ import com.sda.spring.java11.model.Status;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,12 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
       LocalDateTime startDate,
       LocalDateTime endDate,
       Set<Status> statuses);
+  Page<Receipt> findByClientContainingAndDateBetweenAndStatusIn(
+      String client,
+      LocalDateTime startDate,
+      LocalDateTime endDate,
+      Set<Status> statuses,
+      Pageable pageable);
 
   @Query(
       value = "SELECT * FROM receipts as r WHERE r.client LIKE %?1%",

@@ -2,9 +2,12 @@ package com.sda.spring.java11.controller;
 
 import com.sda.spring.java11.model.Product;
 import com.sda.spring.java11.service.ProductService;
-import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,20 +28,23 @@ public class ProductController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Product create(@RequestBody Product product) {
-    return productService.create(product);
+  public Product create(
+      @RequestBody @Valid Product product,
+      BindingResult bindingResult) {
+    return productService.create(product, bindingResult);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<Product> search(
+  public Page<Product> search(
       @RequestParam(value = "name", defaultValue = "") String name,
       @RequestParam(value = "minPrice", defaultValue = "0") Double minPrice,
-      @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
+      @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+      Pageable pageable) {
     if (maxPrice == null) {
       maxPrice = Double.MAX_VALUE;
     }
-    return productService.search(name, minPrice, maxPrice);
+    return productService.search(name, minPrice, maxPrice, pageable);
   }
 
   @DeleteMapping("/{id}")
@@ -57,7 +63,8 @@ public class ProductController {
   @ResponseStatus(HttpStatus.OK)
   public Product update(
       @PathVariable Long id,
-      @RequestBody Product product) {
-    return productService.update(id, product);
+      @RequestBody @Valid Product product,
+      BindingResult bindingResult) {
+    return productService.update(id, product, bindingResult);
   }
 }
