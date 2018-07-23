@@ -2,6 +2,7 @@ package com.sda.spring.java11.service;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+import com.sda.spring.java11.exception.BindingResultException;
 import com.sda.spring.java11.exception.NotFoundException;
 import com.sda.spring.java11.model.Receipt;
 import com.sda.spring.java11.model.Status;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class ReceiptService {
@@ -23,7 +25,10 @@ public class ReceiptService {
   @Autowired
   private ReceiptRepository receiptRespository;
 
-  public Receipt create(Receipt receipt) {
+  public Receipt create(Receipt receipt, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new BindingResultException(bindingResult);
+    }
     return receiptRespository.save(receipt);
   }
 
@@ -81,7 +86,10 @@ public class ReceiptService {
     return receipt.get();
   }
 
-  public Receipt update(Long id, Receipt receipt) {
+  public Receipt update(Long id, Receipt receipt, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new BindingResultException(bindingResult);
+    }
     if (!receiptRespository.existsById(id)) {
       throw new NotFoundException(
           String.format("Receipt with id %s does not exists!", id));

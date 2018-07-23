@@ -6,6 +6,7 @@ import com.sda.spring.java11.service.ReceiptService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +38,8 @@ public class ReceiptController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Receipt create(@RequestBody Receipt receipt) {
-    return receiptService.create(receipt);
+  public Receipt create(@RequestBody @Valid Receipt receipt, BindingResult bindingResult) {
+    return receiptService.create(receipt, bindingResult);
   }
 
   @GetMapping
@@ -84,7 +86,8 @@ public class ReceiptController {
   @ResponseStatus(HttpStatus.OK)
   public Receipt update(
       @PathVariable Long id,
-      @RequestBody Receipt receipt) {
-    return receiptService.update(id, receipt);
+      @RequestBody @Valid Receipt receipt,
+      BindingResult bindingResult) {
+    return receiptService.update(id, receipt, bindingResult);
   }
 }

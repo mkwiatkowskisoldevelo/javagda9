@@ -41,9 +41,6 @@ public class ProductController {
       @RequestParam(value = "minPrice", defaultValue = "0") Double minPrice,
       @RequestParam(value = "maxPrice", required = false) Double maxPrice,
       Pageable pageable) {
-    if (maxPrice == null) {
-      maxPrice = Double.MAX_VALUE;
-    }
     return productService.search(name, minPrice, maxPrice, pageable);
   }
 

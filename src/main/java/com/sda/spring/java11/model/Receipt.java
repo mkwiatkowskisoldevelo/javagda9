@@ -14,6 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -25,12 +29,15 @@ public class Receipt {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @NotBlank
   @Column(nullable = false, name = "client")
   private String client;
 
+  @Past
   @Column(nullable = false, name = "date")
   private LocalDateTime date;
 
+  @NotNull
   @Column(nullable = false, name = "status")
   @Enumerated(EnumType.STRING)
   private Status status;
@@ -38,6 +45,7 @@ public class Receipt {
 //  @OneToMany(mappedBy = "receipt")
 //  private List<Product> products;
 
+  @Size(min = 1)
   //@ManyToMany(cascade = CascadeType.ALL)
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(

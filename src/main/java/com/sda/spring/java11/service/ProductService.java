@@ -29,6 +29,9 @@ public class ProductService {
   }
 
   public Page<Product> search(String name, Double minPrice, Double maxPrice, Pageable pageable) {
+    if (maxPrice == null) {
+      maxPrice = Double.MAX_VALUE;
+    }
     return productRepository
         .findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualOrderByPriceDesc(
             name, minPrice, maxPrice, pageable);
