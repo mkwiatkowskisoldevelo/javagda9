@@ -6,6 +6,9 @@ angular.module('product')
         query: {
             method: 'GET',
             isArray: false
+        },
+        update: {
+            method: 'PUT'
         }
     });
 
@@ -27,5 +30,11 @@ angular.module('product')
         return productResource.get({
             productId: id
         }).$promise;
+    };
+    
+    service.update = function(product) {
+        return productResource.update({
+            productId: product.id
+        }, product).$promise;
     };
 });
