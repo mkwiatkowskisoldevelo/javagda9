@@ -1,6 +1,6 @@
 var productListModule = angular.module('product-list');
 
-productListModule.controller('ProductListController', function(productService) {
+productListModule.controller('ProductListController', function(productService, $location) {
     var vm = this;
 
     vm.sortOptions = [
@@ -25,8 +25,8 @@ productListModule.controller('ProductListController', function(productService) {
     vm.params = {};
 
     vm.search = search;
-
     vm.remove = remove;
+    vm.edit = edit;
 
     search();
 
@@ -46,5 +46,9 @@ productListModule.controller('ProductListController', function(productService) {
         .then(function() {
             search();
         });
+    }
+
+    function edit(id) {
+        $location.path('/products/edit/' + id);
     }
 });

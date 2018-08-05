@@ -22,4 +22,10 @@ angular.module('product')
             productId: id
         }).$promise;
     };
+
+    service.get = function(id) {
+        return productResource.get({
+            productId: id
+        }).$promise;
+    };
 });
