@@ -1,0 +1,8 @@
+<select class="form-control select2-element" ng-model="vm.selectedProduct"
+    ng-options="product as product.name for product in vm.products">
+</select>
+<script>
+    $(document).ready(function() {
+        $('.select2-element').select2();
+    });
+</script>

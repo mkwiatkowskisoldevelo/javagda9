@@ -15,12 +15,12 @@
     </div>
     <div class="form-group">
         <label for="sort">Sort by</label>
-        <select class="form-control js-example-basic-single" id="sort" ng-model="vm.params.sort"
+        <select class="form-control select2-element" id="sort" ng-model="vm.params.sort"
             ng-options="sortOption.value as sortOption.displayName for sortOption in vm.sortOptions">
         </select>
         <script>
             $(document).ready(function() {
-                $('.js-example-basic-single').select2();
+                $('.select2-element').select2();
             });
         </script>
     </div>
