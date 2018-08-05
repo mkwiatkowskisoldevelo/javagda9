@@ -1,8 +1,47 @@
-<select class="form-control select2-element" ng-model="vm.selectedProduct"
-    ng-options="product as product.name for product in vm.products">
-</select>
-<script>
-    $(document).ready(function() {
-        $('.select2-element').select2();
-    });
-</script>
+<form>
+    <div class="form-group">
+        <label for="client">Client</label>
+        <input id="client" ng-model="vm.receipt.client" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" ng-model="vm.receipt.status" class="form-control"
+            ng-options="status in vm.statuses">
+        </select>
+    </div>
+</form>
+
+<form ng-submit="vm.addProduct()">
+    <div class="form-group">
+        <select class="form-control select2-element" ng-model="vm.selectedProduct"
+            ng-options="product as product.name for product in vm.products">
+        </select>
+        <script>
+            $(document).ready(function() {
+                $('.select2-element').select2();
+            });
+        </script>
+    </div>
+    <button class="btn btn-success" type="submit">Add Product</button>
+</form>
+
+<table class="table table-striped"> 
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="product in vm.receipt.products">
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="vm.removeProduct(product.id)">
+                    Remove Product
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
