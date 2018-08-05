@@ -33,7 +33,7 @@ public class ProductService {
       maxPrice = Double.MAX_VALUE;
     }
     return productRepository
-        .findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualOrderByPriceDesc(
+        .findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(
             name, minPrice, maxPrice, pageable);
   }
 

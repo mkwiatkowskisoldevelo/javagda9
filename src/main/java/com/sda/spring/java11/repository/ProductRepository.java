@@ -26,5 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
   findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualOrderByPriceDesc(
       String name, Double minPrice, Double maxPrice, Pageable pageable);
 
+  Page<Product>
+  findByNameContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(
+      String name, Double minPrice, Double maxPrice, Pageable pageable);
+
   boolean existsByName(String name);
 }
